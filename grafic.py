@@ -47,6 +47,7 @@ def main(page):
     page.theme = ft.theme.Theme(color_scheme_seed="yellow")
     page.update()
 
+
 try:
     ft.app(main)
 except Exception as e:
