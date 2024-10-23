@@ -119,7 +119,7 @@ class backend:
         except Error as e:
             print(f'error in base: {e}')
 
-    def inicialization(self):
+    def inicialization(self, username, email):
         pass
 
 '''Backend = backend()
