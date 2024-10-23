@@ -119,6 +119,9 @@ class backend:
         except Error as e:
             print(f'error in base: {e}')
 
+    def inicialization(self):
+        pass
+
 '''Backend = backend()
 Backend.new_purchase(12, 'хлеб')  # Сначала вводим новую покупку
 Backend.insert_purchase_when0()  # Затем сохраняем её в базе данных
