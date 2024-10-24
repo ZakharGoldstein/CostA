@@ -119,8 +119,22 @@ class backend:
         except Error as e:
             print(f'error in base: {e}')
 
-    def inicialization(self, username, email):
+    def registration_logging(self, username, password, telephone_number, email=None):
         pass
+
+    def checking_purchases_from_date_to_date(self, date1=datetime.now().strftime('%Y-%m-%d'), date2=datetime.now().strftime('%Y-%m-%d')):
+        connection = self.connection
+        if connection:
+            with self.connection.cursor() as cursor:
+                query = """
+                    SELECT * 
+                    FROM transactions 
+                    WHERE date_of_transaction BETWEEN %s AND %s;
+                    """
+                cursor.execute(query, (date1, date2))
+                results = cursor.fetchall()
+            return results
+
 
 '''Backend = backend()
 Backend.new_purchase(12, 'хлеб')  # Сначала вводим новую покупку

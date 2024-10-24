@@ -1,5 +1,6 @@
 import flet as ft
 from main import backend
+import datetime
 
 Backend = backend()
 
@@ -26,7 +27,7 @@ def main(page):
             page.add(ft.Text("Категория не найдена.", color='white', size=24))
 
     def show_all_clicked(e):
-        chek = Backend.check_today_purchases()
+        chek = Backend.checking_purchases_from_date_to_date(date1=datetime.date(2024, 10, 23).strftime('%Y-%m-%d')) # входные данные должны быть только в таком формате
         if chek:
             all_tasks = "\n".join([f"{count}: {task}" for task, date, count in chek])
             page.add(ft.Text(value=f"Все покупки:\n{all_tasks}", color='white', size=24))
