@@ -18,6 +18,7 @@ class backend:
         self.connection = None
         self.new_purchase_data = None
         self.con_with_base()
+        self.actual_date= datetime.now().strftime('%Y-%m-%d')
 
     def con_with_base(self):
         try:
@@ -42,29 +43,12 @@ class backend:
     def new_purchase(self, price, name):
         """Получает данные о новой покупке от пользователя."""
         try:
-            self.new_purchase_data = (int(price), datetime.date(datetime.now()), name)
+            self.new_purchase_data = (int(price), self.actual_date, name)
             print("Данные новой покупки сохранены.")
             return self.new_purchase_data
         except ValueError:
             print("Ошибка ввода. Пожалуйста, введите корректные данные.")
             return None
-
-    def insert_purchase_when1(self):
-        if self.new_purchase_data is None:
-            print("Нет данных для новой покупки.")
-            return
-
-        try:
-            with self.connection.cursor() as cursor:
-                insert_query = (
-                    "INSERT INTO transactions (purchase, date_of_transaction, name) "
-                    "VALUES (%s, _, %s)"
-                )
-                cursor.execute(insert_query, self.new_purchase_data)
-                self.connection.commit()
-                print("Новая покупка успешно добавлена в базу данных.")
-        except Error as e:
-            print(e)
 
     def insert_purchase_when0(self):
         if self.new_purchase_data is None:
@@ -104,7 +88,7 @@ class backend:
 
     def serching(self, req):
         try:
-            nowday = datetime.now().strftime('%Y-%m-%d')
+            nowday = self.actual_date
             connection = self.connection
             if connection:
                 with self.connection.cursor() as cursor:
@@ -122,7 +106,11 @@ class backend:
     def registration_logging(self, username, password, telephone_number, email=None):
         pass
 
-    def checking_purchases_from_date_to_date(self, date1=datetime.now().strftime('%Y-%m-%d'), date2=datetime.now().strftime('%Y-%m-%d')):
+    def checking_purchases_from_date_to_date(self, date1=0, date2=0):
+        if not(date1):
+            date1 = self.actual_date
+        if not(date2):
+            date2 = self.actual_date
         connection = self.connection
         if connection:
             with self.connection.cursor() as cursor:
